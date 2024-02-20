@@ -1,0 +1,26 @@
+# Ignore compiled objects and binaries
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+
+# Ignore build artifacts
+build/
+bin/
+obj/
+
+# Ignore IDE files
+.null-ls*
+
+# Ignore documentation and other generated files
+doc/
+out/
+
+# Ignore dependencies
+vendor/
+
+# Ignore miscellaneous files
+.DS_Store
+*.swp
+
