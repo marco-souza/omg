@@ -2,11 +2,16 @@ package llm
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"log"
 
+	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/llms/ollama"
 )
+
+//go:embed role
+var role string
 
 func Completion(prompt string) {
 	model, err := ollama.New(ollama.WithModel("llama2"))
@@ -14,14 +19,25 @@ func Completion(prompt string) {
 		log.Fatal(err)
 	}
 
-	role := "ROLE: You will act as an AI prompt generator. I'll pass you some instructions, and " + "you will asnwer me with a good prompt to feed an AI assistent"
-	prompt = fmt.Sprintf("%s\n\n%s", role, prompt)
+	readStream(model, prompt)
+}
 
+func processPrompt(prompt string) string {
+	return fmt.Sprintf(role, prompt)
+}
+
+func readStream(llm *ollama.LLM, query string) {
 	ctx := context.Background()
-	completion, err := model.Call(ctx, prompt)
+  prompt := processPrompt(query)
+
+	_, err := llm.Call(ctx, prompt, llms.WithStreamingFunc(handleChunks))
 	if err != nil {
 		log.Fatal(err)
 	}
+}
 
-	fmt.Println(completion)
+func handleChunks(ctx context.Context, chunk []byte) error {
+	fmt.Printf("%s", chunk)
+	// fmt.Printf("chunk len=%d: %s\n", len(chunk), chunk)
+	return nil
 }

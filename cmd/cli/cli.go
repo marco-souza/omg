@@ -43,16 +43,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case tea.KeyEnter:
-			if !m.textarea.Focused() {
-				fmt.Println("Done!")
+			fmt.Println("Done!")
 
-				input := m.textarea.Value()
-				fmt.Println(input)
+			input := m.textarea.Value()
+			fmt.Println(input)
 
-        llm.Completion(input)
+			llm.Completion(input)
 
-				return m, tea.Quit
-			}
+			return m, tea.Quit
 
 		case tea.KeyCtrlC:
 			return m, tea.Quit
