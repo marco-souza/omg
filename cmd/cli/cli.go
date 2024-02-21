@@ -10,6 +10,7 @@ import (
 
 type model struct {
 	textarea textarea.Model
+	prompt   string
 	err      error
 }
 
@@ -24,6 +25,14 @@ func MakeModel() model {
 	}
 }
 
+type completionMsg string
+
+func completionCmd(prompt string) tea.Cmd {
+	return func() tea.Msg {
+		return completionMsg("Hi, there!")
+	}
+}
+
 func (m model) Init() tea.Cmd {
 	return tea.Batch(tea.ClearScreen, textarea.Blink)
 }
@@ -33,6 +42,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 
 	switch msg := msg.(type) {
+	case completionMsg:
+		go func() {
+			llm.Completion(m.prompt)
+			// emit success event
+			m.Update(tea.Quit)
+		}()
+		return m, nil
+
 	case tea.KeyMsg:
 		// select msg type
 		switch msg.Type {
@@ -43,14 +60,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case tea.KeyEnter:
-			fmt.Println("Done!")
-
-			input := m.textarea.Value()
-			fmt.Println(input)
-
-			llm.Completion(input)
-
-			return m, tea.Quit
+			m.prompt = m.textarea.Value()
+			return m, completionCmd(m.prompt)
 
 		case tea.KeyCtrlC:
 			return m, tea.Quit
@@ -79,6 +90,11 @@ func (m model) View() string {
 	if !m.textarea.Focused() {
 		avaliableHotkeys = "(enter) to save"
 	}
+
+	if len(m.prompt) > 0 {
+		return fmt.Sprintf("%s...\n\n", m.prompt)
+	}
+
 	return fmt.Sprintf(
 		"Tell me what you need.\n\n%s\n\n%s",
 		m.textarea.View(),
