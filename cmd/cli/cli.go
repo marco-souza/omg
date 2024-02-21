@@ -5,6 +5,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/textarea"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/marco-souza/omg/internal/llm"
 )
 
 type model struct {
@@ -45,8 +46,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if !m.textarea.Focused() {
 				fmt.Println("Done!")
 
-				value := m.textarea.Value()
-				fmt.Println(value)
+				input := m.textarea.Value()
+				fmt.Println(input)
+
+        llm.Completion(input)
 
 				return m, tea.Quit
 			}
