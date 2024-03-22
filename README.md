@@ -2,6 +2,8 @@
 
 OMG is a CLI tool written in Go that helps you generate Modelfile for Ollama, given a initial request from the user.
 
+https://www.loom.com/share/d6a1509e0b90474c850e8fb946aa19a6
+
 **Usage:**
 
 ```
