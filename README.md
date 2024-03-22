@@ -27,7 +27,7 @@ go install github.com/marco-souza/omg
 **Example Usage:**
 
 ```
-omg "I want model expert in python which can teach me how to become a great developer"
+omg I want model expert in python which can teach me how to become a great developer
 ```
 
 This will generate a Modelfile for an Ollama model like the following one
