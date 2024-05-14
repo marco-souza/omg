@@ -1,0 +1,9 @@
+* Ollama Modelfile Generator
+
+** CLI options
+*** TODO receive output file
+*** TODO receive model to be used (default: llama3)
+** Initial Setup
+*** TODO create tests
+** Model Generation Prompt
+*** TODO improve prompt to llama3
