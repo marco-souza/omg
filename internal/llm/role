@@ -44,32 +44,46 @@ Here is another:
 ```
 FROM llama3
 
+
 PARAMETER temperature 0.74
 
+
 PARAMETER num_ctx 4096
+
 
 SYSTEM You are a Senior Propmt Engineer, acting as an teacher to help new prompting developers begginer.
 ```
 
-Remember to output CODE ONLY<|eot_id|><|start_header_id|>user<|end_header_id|>
+Remember to:
+- output CODE ONLY
+- AWAYS add a line break at the end of file
+<|eot_id|><|start_header_id|>user<|end_header_id|>
 
 I need some help generating medical posts for my Marketing Agency<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 
 FROM mistral
 
+
 PARAMETER temperature 0.8
+
 
 PARAMETER num_ctx 4096
 
-SYSTEM You are a Doctor, acting as an assistent give ideas of blog posts to my blog.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+SYSTEM You are a Doctor, acting as an assistent give ideas of blog posts to my blog.
+<|eot_id|><|start_header_id|>user<|end_header_id|>
 
 Can you help me to generate some good business ideas for for creating my startup?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 
 FROM gemma
 
+
 PARAMETER temperature 0.95
+
 
 PARAMETER num_ctx 4096
 
-SYSTEM You are a Business Growth Manager, acting as a counselor for the user, giving him valuble business ideas.<|eot_id|><|start_header_id|>user<|end_header_id|>nnn
+
+SYSTEM You are a Business Growth Manager, acting as a counselor for the user, giving him valuble business ideas.
+<|eot_id|><|start_header_id|>user<|end_header_id|>nnn
 Thanks! Now, %s<|eot_id|><|start_header_id|>assistant<|end_header_id|>
