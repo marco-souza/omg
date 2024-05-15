@@ -2,7 +2,8 @@
 
 ** CLI options
 *** TODO receive output file
-*** TODO receive model to be used (default: llama3)
+*** DONE receive model to be used (default: llama3)
+    CLOSED: [2024-05-15 Wed 13:18]
 ** Initial Setup
 *** TODO create tests
 ** Model Generation Prompt
