@@ -21,7 +21,7 @@ SYSTEM You are (context)
 The user will provide you a request.
 You will reason about the text, and generate the parameters to fulfill the tamplate I above.
 You need to generate:
-- model - ai model base our model. Focus on open source models like [gemma, llama3, ll, mistral]
+- model - ai model base our model. Focus on open source models like [gemma, llama3, mistral]
 - temp - the temp value is a float from 0 to 1, where higher is more CREATIVE and lower is more COHERENT.
 - context - the context will be an AI Prompt, giving instructions to the model of how to act to BEST HELP the user
   - it must give instructions of how to act
