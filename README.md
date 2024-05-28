@@ -14,11 +14,12 @@ OMG is a CLI tool written in Go that helps you generate Modelfile for Ollama, gi
 **Features:**
 
 - generate `Modelfile` for Ollama using `llama3` and `langchain`
+- easy to use and install
+- can be used with pipes
 
-<details>
-  <summary><strong>Demo 🚀</strong></summary>
-  https://www.loom.com/share/d6a1509e0b90474c850e8fb946aa19a6</details>
-</section>
+**Demo: 🚀**
+
+https://www.loom.com/share/d6a1509e0b90474c850e8fb946aa19a6
 
 ---
 
@@ -33,7 +34,6 @@ omg -o <output file> [request]
 **Requirements:**
 
 - Go
-- Langchain
 - Ollama
 
 **Installation:**
