@@ -7,12 +7,12 @@ import (
 )
 
 type CliInput struct {
-	OutputPath string
-	ShowHelp   bool
+	OutputPath *string
+	ShowHelp   *bool
 	Args       []string
 }
 
-func Parse() *CliInput {
+func NewCli() *CliInput {
 	// define cli flags
 	outputPath := flag.String("o", "", "")
 	flag.StringVar(outputPath, "output", "", "output file")
@@ -20,14 +20,17 @@ func Parse() *CliInput {
 	help := flag.Bool("h", false, "")
 	flag.BoolVar(help, "help", false, "show help")
 
-	flag.Parse()
-
 	return &CliInput{
-		*outputPath, *help, flag.Args(),
+		outputPath, help, []string{},
 	}
 }
 
-func Usage() {
+func (c *CliInput) Parse() {
+	flag.Parse()
+	c.Args = flag.Args()
+}
+
+func (c *CliInput) Usage() {
 	fmt.Fprintf(flag.CommandLine.Output(), "Usage of %s:\n\n", os.Args[0])
 	flag.PrintDefaults()
 }

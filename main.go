@@ -11,15 +11,17 @@ import (
 )
 
 func main() {
-	input := cli.Parse()
-	prompt := strings.Join(input.Args, " ")
+	c := cli.NewCli()
+	c.Parse()
 
-	if input.ShowHelp {
-		cli.Usage()
+	prompt := strings.Join(c.Args, " ")
+
+	if *c.ShowHelp {
+		c.Usage()
 		os.Exit(0)
 	}
 
-	if len(input.Args) == 0 {
+	if len(c.Args) == 0 {
 		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			log.Fatal(err)
@@ -28,5 +30,5 @@ func main() {
 		prompt = string(stdin)
 	}
 
-	llm.Completion(prompt, input.OutputPath)
+	llm.Completion(prompt, *c.OutputPath)
 }
