@@ -11,3 +11,6 @@ run: main.go
 
 fmt: main.go
 	go fmt ./...
+
+t:
+	go test ./...

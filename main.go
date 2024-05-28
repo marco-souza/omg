@@ -1,27 +1,34 @@
 package main
 
 import (
-	"fmt"
+	"io"
+	"log"
 	"os"
 	"strings"
 
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/marco-souza/omg/cmd/cli"
 	"github.com/marco-souza/omg/internal/llm"
 )
 
 func main() {
-	argsWithoutProg := os.Args[1:]
+	c := cli.NewCli()
+	c.Parse()
 
-	if len(argsWithoutProg) > 0 {
-		prompt := strings.Join(argsWithoutProg, " ")
-		llm.Completion(prompt)
-		return
+	prompt := strings.Join(c.Args, " ")
+
+	if *c.ShowHelp {
+		c.Usage()
+		os.Exit(0)
 	}
 
-	p := tea.NewProgram(cli.MakeModel())
-	if _, err := p.Run(); err != nil {
-		fmt.Printf("Alas, there's been an error: %v", err)
-		os.Exit(1)
+	if len(c.Args) == 0 {
+		stdin, err := io.ReadAll(os.Stdin)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		prompt = string(stdin)
 	}
+
+	llm.Completion(prompt, *c.OutputPath)
 }

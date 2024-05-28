@@ -1,10 +1,13 @@
 * Ollama Modelfile Generator
 
 ** CLI options
-*** TODO receive output file
-*** DONE receive model to be used (default: llama3)
+*** DONE receive output file
+    CLOSED: [2024-05-28 Tue 19:23]
+*** CANCELED receive model to be used (default: llama3)
     CLOSED: [2024-05-15 Wed 13:18]
 ** Initial Setup
-*** TODO create tests
+*** DONE create tests
+    CLOSED: [2024-05-28 Tue 19:24]
 ** Model Generation Prompt
-*** TODO improve prompt to llama3
+*** DONE improve prompt to llama3
+    CLOSED: [2024-05-28 Tue 19:24]

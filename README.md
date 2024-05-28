@@ -25,12 +25,10 @@ OMG is a CLI tool written in Go that helps you generate Modelfile for Ollama, gi
 **Usage:**
 
 ```
+omg -h
 omg [request]
+omg -o <output file> [request]
 ```
-
-**Options:**
-
-- **Help:** `omg -h`
 
 **Requirements:**
 
@@ -46,11 +44,25 @@ go install github.com/marco-souza/omg
 
 **Example Usage:**
 
-```
+```sh
+# usage infos
+omg -h
+
+# without output flag
 omg I want model expert in python which can teach me how to become a great developer
+omg "I want model expert in python which can teach me how to become a great developer" > python.modelfile
+
+# with output flag
+omg -o history.modelfile I want to study history
+omg -o lang.modelfile I want to how languages where created history
+
+
+# reading from input
+echo "I want to study math" | omg
+echo "I want to study math" | omg -o math.modelfile
 ```
 
-This will generate a Modelfile for an Ollama model like the following one:
+The command above will generate a `Modelfile` for a custom Ollama Model, like the following one:
 
 ```Modelfile
 FROM mistral
@@ -62,13 +74,13 @@ PARAMETER num_ctx 4096
 SYSTEM You are a Python Expert, acting as a teacher giving you tips and tricks on how to become a great developer.
 ```
 
+You can use this file to build and run your [custom model](https://github.com/ollama/ollama?tab=readme-ov-file#customize-a-model).
+
 **Additional Notes:**
 
-- The CLI command does not have any options besides help.
-- OMG uses langchain for communicating with ollama.
 - To use OMG, you must have ollama installed.
 
 **Further Resources:**
 
-- [Ollama Documentation](/docs)
-- [Langchain Documentation](/langchain)
+- [Ollama Documentation](https://github.com/ollama/ollama)
+- [Langchain Documentation](https://tmc.github.io/langchaingo/docs/)
