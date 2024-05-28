@@ -14,6 +14,11 @@ func main() {
 	input := cli.Parse()
 	prompt := strings.Join(input.Args, " ")
 
+	if input.ShowHelp {
+		cli.Usage()
+		os.Exit(0)
+	}
+
 	if len(input.Args) == 0 {
 		stdin, err := io.ReadAll(os.Stdin)
 		if err != nil {
