@@ -14,17 +14,17 @@ import (
 
 var settings = config.NewSettings()
 
-func Completion(prompt string, filepath string) {
+func Completion(prompt string, output string) {
 	model, err := ollama.New(ollama.WithModel(settings.Model))
 	if err != nil {
 		log.Fatal("failed to connect to ollama: ", err)
 	}
 
 	outputFile := os.Stdout
-	if filepath != "" {
-		outputFile, err = os.Create(filepath)
+	if output != "" {
+		outputFile, err = os.Create(output)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("failed to create output file: ", output, err)
 		}
 		defer outputFile.Close()
 	}
@@ -53,6 +53,5 @@ func (m *completionState) completeWithModel(llm *ollama.LLM) {
 
 func (m *completionState) handleChunks(ctx context.Context, chunk []byte) error {
 	fmt.Fprintf(m.outputFile, "%s", chunk)
-	// fmt.Printf("chunk len=%d: %s\n", len(chunk), chunk)
 	return nil
 }
