@@ -5,45 +5,54 @@ import (
 	_ "embed"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/marco-souza/omg/internal/config"
 	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/llms/ollama"
 )
 
-//go:embed role
-var role string
-
 var settings = config.NewSettings()
 
-func Completion(prompt string) {
-	model, err := ollama.New(
-		ollama.WithModel(settings.Model),
-	)
-
+func Completion(prompt string, filepath string) {
+	model, err := ollama.New(ollama.WithModel(settings.Model))
 	if err != nil {
 		log.Fatal("failed to connect to ollama: ", err)
 	}
 
-	readStream(model, prompt)
+	outputFile := os.Stdout
+	if filepath != "" {
+		outputFile, err = os.Create(filepath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer outputFile.Close()
+	}
+
+	m := &completionState{prompt, outputFile}
+	m.completeWithModel(model)
 }
 
-func processPrompt(prompt string) string {
-	return fmt.Sprintf(role, prompt)
+//go:embed role
+var role string
+
+type completionState struct {
+	prompt     string
+	outputFile *os.File
 }
 
-func readStream(llm *ollama.LLM, query string) {
+func (m *completionState) completeWithModel(llm *ollama.LLM) {
 	ctx := context.Background()
-	prompt := processPrompt(query)
+	prompt := fmt.Sprintf(role, m.prompt)
 
-	_, err := llm.Call(ctx, prompt, llms.WithStreamingFunc(handleChunks))
+	_, err := llm.Call(ctx, prompt, llms.WithStreamingFunc(m.handleChunks))
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func handleChunks(ctx context.Context, chunk []byte) error {
-	fmt.Printf("%s", chunk)
+func (m *completionState) handleChunks(ctx context.Context, chunk []byte) error {
+	fmt.Fprintf(m.outputFile, "%s", chunk)
 	// fmt.Printf("chunk len=%d: %s\n", len(chunk), chunk)
 	return nil
 }
